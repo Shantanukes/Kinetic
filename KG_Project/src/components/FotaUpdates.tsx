@@ -170,7 +170,7 @@ const FotaUpdates: React.FC<FotaUpdatesProps> = ({ darkMode, vehicles }) => {
               </div>
               <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                 <UploadCloud size={18} />
-                Deploy New Update
+                Install New Update
               </button>
             </div>
           </div>

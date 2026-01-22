@@ -137,7 +137,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           {/* Text Content (Hidden on very small screens to save space, visible on tablet+) */}
           <div className="hidden sm:block">
             <p className="text-lg lg:text-xl text-green-100/90 font-light max-w-md mx-auto mb-8 leading-relaxed">
-              Real-time tracking, analytics, and insights for your connected vehicles
+              <b>ThinK Electric..... Think KINETIC.... </b>
             </p>
 
             {/* Feature Pills */}
