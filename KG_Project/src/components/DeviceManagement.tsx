@@ -12,11 +12,11 @@ import {
   AlertTriangle,
   Download
 } from 'lucide-react';
-// import { FLEET_VEHICLES } from '../constants'; // Removed
+import { Vehicle } from '../types';
 
 interface DeviceManagementProps {
   darkMode: boolean;
-  vehicles: any[]; 
+  vehicles: Vehicle[];
 }
 
 const DeviceManagement: React.FC<DeviceManagementProps> = ({ darkMode, vehicles }) => {

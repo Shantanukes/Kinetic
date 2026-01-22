@@ -67,6 +67,28 @@
   animation: spin 20s linear infinite;
 }
 
+/* 3D rotate + gentle float used for mobile illustration */
+@keyframes rotate3D {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(10deg) rotateY(15deg);
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 /* 3D Anticlockwise rotation for sphere logo */
 @keyframes rotate3D {
   0% {

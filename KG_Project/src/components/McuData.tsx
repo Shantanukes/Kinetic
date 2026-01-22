@@ -90,12 +90,12 @@ const McuData: React.FC<McuDataProps> = ({ darkMode, vehicleInsights }) => {
   const healthFactor = clamp(selectedVehicle?.batteryHealth ?? 90, 70, 100) / 100;
 
   const [series, setSeries] = useState<TelemetryPoint[]>(() =>
-    buildInitialSeries(maxPoints, stepSeconds, baseSpeed, utilization, healthFactor, selectedVehicle.id)
+    buildInitialSeries(maxPoints, stepSeconds, baseSpeed, utilization, healthFactor)
   );
 
   useEffect(() => {
-    setSeries(buildInitialSeries(maxPoints, stepSeconds, baseSpeed, utilization, healthFactor, selectedVehicle.id));
-  }, [baseSpeed, utilization, healthFactor, maxPoints, stepSeconds, selectedVehicle.id]);
+    setSeries(buildInitialSeries(maxPoints, stepSeconds, baseSpeed, utilization, healthFactor));
+  }, [baseSpeed, utilization, healthFactor, maxPoints, stepSeconds]);
 
   useEffect(() => {
     const interval = setInterval(() => {

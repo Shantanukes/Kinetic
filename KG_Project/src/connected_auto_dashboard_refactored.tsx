@@ -74,6 +74,9 @@ const ConnectedAutoDashboard = () => {
       ? (FLEET_VEHICLES as Vehicle[]).filter(v => clientVehicleIds.includes(v.id))
       : (FLEET_VEHICLES as Vehicle[]);
 
+  // Heavy pages (map/device table) choke on thousands of rows; keep the UI lean
+  const displayVehicles = filteredVehicles.slice(0, 300);
+
   // Calculate Device Stats based on Filtered Vehicles
   const deviceStats = {
     active: filteredVehicles.filter(v => v.status === 'active' || v.status === 'charging').length,
@@ -201,14 +204,14 @@ const ConnectedAutoDashboard = () => {
               environmentalData={environmentalData}
               quickActions={QUICK_ACTIONS}
               alerts={filteredAlerts}
-              vehicles={filteredVehicles}
+              vehicles={displayVehicles}
               trips={filteredTrips}
               performanceMetrics={performanceMetrics}
             />
           )}
 
           {currentPage === 'tracking' && (
-            <LiveTracking vehicles={filteredVehicles} darkMode={darkMode} />
+            <LiveTracking vehicles={displayVehicles} darkMode={darkMode} />
           )}
 
           {currentPage === 'insights' && (
@@ -224,7 +227,7 @@ const ConnectedAutoDashboard = () => {
           )}
 
           {currentPage === 'devices' && (
-            <DeviceManagement darkMode={darkMode} vehicles={filteredVehicles} />
+            <DeviceManagement darkMode={darkMode} vehicles={displayVehicles} />
           )}
 
           {currentPage === 'fota' && (
