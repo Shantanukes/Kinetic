@@ -1,11 +1,20 @@
 // Live Tracking Component with Interactive Map
 
-import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
+import L from 'leaflet';
 import { Battery, Gauge, Navigation, User, AlertCircle, MapPin } from 'lucide-react';
 import { Vehicle } from '../types';
 import 'leaflet/dist/leaflet.css';
+
+// Fix for default Leaflet icon issue
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+});
 
 interface LiveTrackingProps {
   vehicles: Vehicle[];
@@ -15,6 +24,11 @@ interface LiveTrackingProps {
 const LiveTracking: React.FC<LiveTrackingProps> = ({ vehicles, darkMode }) => {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [mapCenter] = useState<[number, number]>([19.0760, 72.8777]); // Mumbai center
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Custom marker icons based on vehicle status
   const getVehicleIcon = (status: string) => {
@@ -118,61 +132,68 @@ const LiveTracking: React.FC<LiveTrackingProps> = ({ vehicles, darkMode }) => {
         {/* Map Container */}
         <div className={`lg:col-span-2 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg overflow-hidden`}>
           <div className="h-[600px] relative">
-            <MapContainer
-              center={mapCenter}
-              zoom={12}
-              style={{ height: '100%', width: '100%' }}
-              className="z-0"
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              
-              {vehicles.map((vehicle) => (
-                <Marker
-                  key={vehicle.id}
-                  position={[vehicle.location.lat, vehicle.location.lng]}
-                  icon={getVehicleIcon(vehicle.status)}
-                  eventHandlers={{
-                    click: () => setSelectedVehicle(vehicle)
-                  }}
-                >
-                  <Popup>
-                    <div className="p-2 min-w-[200px]">
-                      <h3 className="font-bold text-lg mb-2">{vehicle.name}</h3>
-                      <p className="text-sm text-gray-600 mb-2">{vehicle.licensePlate}</p>
-                      <div className="space-y-1 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Driver:</span>
-                          <span className="font-semibold">{vehicle.driver}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Battery:</span>
-                          <span className={`font-semibold ${getBatteryColor(vehicle.battery)}`}>
-                            {vehicle.battery}%
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Speed:</span>
-                          <span className="font-semibold">{vehicle.speed} km/h</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Status:</span>
-                          <span className={`px-2 py-0.5 rounded-full text-xs text-white ${
-                            vehicle.status === 'active' ? 'bg-green-500' :
-                            vehicle.status === 'charging' ? 'bg-blue-500' :
-                            vehicle.status === 'idle' ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}>
-                            {vehicle.status}
-                          </span>
+            {!isClient ? (
+              <div className="flex items-center justify-center h-full">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              </div>
+            ) : (
+              <MapContainer
+                center={mapCenter}
+                zoom={12}
+                style={{ height: '100%', width: '100%', zIndex: 0 }}
+                scrollWheelZoom={true}
+                key="live-tracking-map"
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                
+                {vehicles.length > 0 && vehicles.map((vehicle) => (
+                  <Marker
+                    key={vehicle.id}
+                    position={[vehicle.location.lat, vehicle.location.lng]}
+                    icon={getVehicleIcon(vehicle.status)}
+                    eventHandlers={{
+                      click: () => setSelectedVehicle(vehicle)
+                    }}
+                  >
+                    <Popup>
+                      <div className="p-2 min-w-[200px]">
+                        <h3 className="font-bold text-lg mb-2">{vehicle.name}</h3>
+                        <p className="text-sm text-gray-600 mb-2">{vehicle.licensePlate}</p>
+                        <div className="space-y-1 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Driver:</span>
+                            <span className="font-semibold">{vehicle.driver}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Battery:</span>
+                            <span className={`font-semibold ${getBatteryColor(vehicle.battery)}`}>
+                              {vehicle.battery}%
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Speed:</span>
+                            <span className="font-semibold">{vehicle.speed} km/h</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Status:</span>
+                            <span className={`px-2 py-0.5 rounded-full text-xs text-white ${
+                              vehicle.status === 'active' ? 'bg-green-500' :
+                              vehicle.status === 'charging' ? 'bg-blue-500' :
+                              vehicle.status === 'idle' ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}>
+                              {vehicle.status}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Popup>
-                </Marker>
-              ))}
-            </MapContainer>
+                    </Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
+            )}
           </div>
         </div>
 
