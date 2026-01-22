@@ -414,6 +414,26 @@ const LoginPage: React.FC<LoginPageProps> = ({
                   Send Reset Link
                 </button>
               </form>
+              
+              {/* Mobile Illustration / GIF Section */}
+              <div className="mt-8 lg:hidden">
+                <div className="flex items-center justify-center">
+                  <div className="relative w-48 h-48">
+                    <img
+                      src={sphereLogo}
+                      alt="Kinetic Green"
+                      className="w-48 h-48 object-contain"
+                      style={{
+                        filter: 'drop-shadow(0 0 30px rgba(34, 197, 94, 0.6)) drop-shadow(0 0 15px rgba(34, 197, 94, 0.5))',
+                        animation: 'rotate3D 15s linear infinite, floatSlow 6s ease-in-out infinite',
+                        transformStyle: 'preserve-3d',
+                        borderRadius: '60%'
+                      }}
+                    />
+                  </div>
+                </div>
+                <p className="text-center text-green-400 text-sm mt-3">Live insights and tracking</p>
+              </div>
             </>
           ) : null}
         </div>

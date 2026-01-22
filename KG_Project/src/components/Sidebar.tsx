@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <aside className={`fixed left-0 top-0 h-full transition-all duration-300 z-40 overflow-y-auto ${sidebarOpen ? 'w-64' : 'w-20'
+    <aside className={`hidden md:block fixed left-0 top-0 h-full transition-all duration-300 z-40 overflow-y-auto ${sidebarOpen ? 'w-64' : 'w-20'
       } ${darkMode
         ? 'bg-gray-900/95 backdrop-blur-xl border-r border-gray-800/50'
         : 'bg-white/95 backdrop-blur-xl border-r border-gray-200/50 shadow-xl'

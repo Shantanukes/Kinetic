@@ -122,18 +122,32 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
     ];
 
     return (
-        <main className={`p-6 space-y-6 ${darkMode
+        <main
+            className={`p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 ${darkMode
                 ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white'
                 : 'bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50 text-gray-900'
-            } min-h-screen font-sans`}>
+            } min-h-screen font-sans`}
+        >
+            {/* Mobile GIF/Image section - always visible at the top on mobile */}
+            <div className="block lg:hidden mb-2">
+                <div className={`mx-auto w-full max-w-xs flex flex-col items-center justify-center p-2 rounded-2xl ${darkMode ? 'bg-gray-800/80 border border-gray-700/50' : 'bg-white border border-blue-100'} shadow-md`}>
+                    <img
+                        src={kineticScooter}
+                        alt="Electric Scooter"
+                        className="w-40 h-32 object-contain rounded-lg mb-2 animate-bounce"
+                        style={{ background: darkMode ? 'rgba(30,41,59,0.1)' : 'rgba(59,130,246,0.05)' }}
+                    />
+                    <span className="text-xs text-gray-500">Kinetic Green Series</span>
+                </div>
+            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
 
                 {/* Left Column: Status & Map */}
-                <div className="lg:col-span-1 space-y-6">
+                <div className="lg:col-span-1 space-y-4 sm:space-y-6">
 
                     {/* Live Status Card */}
-                    <div className={`p-6 rounded-2xl ${darkMode
+                    <div className={`p-4 sm:p-6 rounded-2xl ${darkMode
                             ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                             : 'bg-white shadow-lg border border-gray-100'
                         } transform hover:scale-[1.02] transition-all duration-300`}>
@@ -173,7 +187,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                     </div>
 
                     {/* Vehicle Showcase Card (The requested Scooter Image) */}
-                    <div className={`p-6 rounded-2xl ${darkMode
+                    <div className={`hidden lg:block p-6 rounded-2xl ${darkMode
                             ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                             : 'bg-gradient-to-br from-white to-blue-50/30 shadow-lg border border-blue-100'
                         } relative overflow-hidden group transform hover:scale-[1.02] transition-all duration-300`}>
@@ -227,7 +241,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                     </div>
 
                     {/* Real-Time Demand */}
-                    <div className={`p-6 rounded-2xl ${darkMode
+                    <div className={`p-4 sm:p-6 rounded-2xl ${darkMode
                             ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                             : 'bg-white shadow-lg border border-gray-100'
                         } transform hover:scale-[1.02] transition-all duration-300`}>
@@ -242,10 +256,10 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                 </div>
 
                 {/* Right Column: Metrics & Charts */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-4 sm:space-y-6">
 
                     {/* Key Metrics Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
                         <div className={`p-5 rounded-2xl ${darkMode
                                 ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                                 : 'bg-white shadow-lg border border-gray-100'
@@ -279,7 +293,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                     </div>
 
                     {/* Middle Row: Charts */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                         {/* Expenses / Savings Chart */}
                         <div className={`p-6 rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'}`}>
                             <div className="flex justify-between items-center mb-6">
