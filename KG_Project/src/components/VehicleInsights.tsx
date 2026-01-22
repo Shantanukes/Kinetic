@@ -20,7 +20,7 @@ const VehicleInsights: React.FC<VehicleInsightsProps> = ({ darkMode, vehicleInsi
   if (!selectedVehicle) return <div className="p-6">No vehicles available</div>;
 
 
-  const getHealthBg = (score: number) => {
+  const _getHealthBg = (score: number) => {
     if (score >= 90) return 'bg-green-100';
     if (score >= 70) return 'bg-yellow-100';
     return 'bg-red-100';
@@ -306,7 +306,7 @@ const VehicleInsights: React.FC<VehicleInsightsProps> = ({ darkMode, vehicleInsi
               </tr>
             </thead>
             <tbody>
-              {selectedVehicle.monthlyTrend.map((month, idx) => {
+              {selectedVehicle.monthlyTrend?.map((month: any, idx: number) => {
                 const prevMonth = idx > 0 ? selectedVehicle.monthlyTrend[idx - 1] : null;
                 const revenueTrend = prevMonth ? month.revenue - prevMonth.revenue : 0;
                 

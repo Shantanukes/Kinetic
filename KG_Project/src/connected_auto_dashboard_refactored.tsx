@@ -1,25 +1,26 @@
 // Main Dashboard Component - Refactored
 
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import LoginPage from './components/LoginPage';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import DashboardContent from './components/DashboardContent';
-import LiveTracking from './components/LiveTracking';
-import VehicleInsights from './components/VehicleInsights';
-import FaultAnalysis from './components/FaultAnalysis';
-import Reports from './components/Reports';
-import DeviceManagement from './components/DeviceManagement';
-import FotaUpdates from './components/FotaUpdates';
-import Configure from './components/Configure';
-import EnterpriseSettings from './components/EnterpriseSettings';
-import AddVehicle from './components/AddVehicle';
-import DealerManagement from './components/DealerManagement';
-import McuData from './components/McuData';
-import VcuData from './components/VcuData';
-import BrakeData from './components/BrakeData';
-import BmsData from './components/BmsData';
-import HeatMaps from './components/HeatMaps';
+// Lazy load components to reduce initial bundle size
+const DashboardContent = lazy(() => import('./components/DashboardContent'));
+const LiveTracking = lazy(() => import('./components/LiveTracking'));
+const VehicleInsights = lazy(() => import('./components/VehicleInsights'));
+const FaultAnalysis = lazy(() => import('./components/FaultAnalysis'));
+const Reports = lazy(() => import('./components/Reports'));
+const DeviceManagement = lazy(() => import('./components/DeviceManagement'));
+const FotaUpdates = lazy(() => import('./components/FotaUpdates'));
+const Configure = lazy(() => import('./components/Configure'));
+const EnterpriseSettings = lazy(() => import('./components/EnterpriseSettings'));
+const AddVehicle = lazy(() => import('./components/AddVehicle'));
+const DealerManagement = lazy(() => import('./components/DealerManagement'));
+const McuData = lazy(() => import('./components/McuData'));
+const VcuData = lazy(() => import('./components/VcuData'));
+const BrakeData = lazy(() => import('./components/BrakeData'));
+const BmsData = lazy(() => import('./components/BmsData'));
+const HeatMaps = lazy(() => import('./components/HeatMaps'));
 import { useAuth } from './hooks/useAuth';
 // import { useDeviceStats } from './hooks/useDeviceStats'; // Hook removed
 import { Alert, Vehicle } from './types';
@@ -187,90 +188,96 @@ const ConnectedAutoDashboard = () => {
           handleLogout={handleLogout}
         />
 
-        {currentPage === 'dashboard' && (
-          <DashboardContent
-            darkMode={darkMode}
-            deviceStats={deviceStats}
-            salesData={salesData}
-            environmentalData={environmentalData}
-            quickActions={QUICK_ACTIONS}
-            alerts={filteredAlerts}
-            vehicles={filteredVehicles}
-            trips={filteredTrips}
-            performanceMetrics={performanceMetrics}
-          />
-        )}
+        <Suspense fallback={
+          <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        }>
+          {currentPage === 'dashboard' && (
+            <DashboardContent
+              darkMode={darkMode}
+              deviceStats={deviceStats}
+              salesData={salesData}
+              environmentalData={environmentalData}
+              quickActions={QUICK_ACTIONS}
+              alerts={filteredAlerts}
+              vehicles={filteredVehicles}
+              trips={filteredTrips}
+              performanceMetrics={performanceMetrics}
+            />
+          )}
 
-        {currentPage === 'tracking' && (
-          <LiveTracking vehicles={filteredVehicles} darkMode={darkMode} />
-        )}
+          {currentPage === 'tracking' && (
+            <LiveTracking vehicles={filteredVehicles} darkMode={darkMode} />
+          )}
 
-        {currentPage === 'insights' && (
-          <VehicleInsights darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-        )}
+          {currentPage === 'insights' && (
+            <VehicleInsights darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+          )}
 
-        {currentPage === 'faults' && (
-          <FaultAnalysis darkMode={darkMode} faultCodes={filteredFaultCodes} faultCodeAnalysis={filteredFaultAnalysis} />
-        )}
+          {currentPage === 'faults' && (
+            <FaultAnalysis darkMode={darkMode} faultCodes={filteredFaultCodes} faultCodeAnalysis={filteredFaultAnalysis} />
+          )}
 
-        {currentPage === 'reports' && (
-          <Reports darkMode={darkMode} vehicleInsights={filteredVehicleInsights} faultCodes={filteredFaultCodes} trips={filteredTrips} />
-        )}
+          {currentPage === 'reports' && (
+            <Reports darkMode={darkMode} vehicleInsights={filteredVehicleInsights} faultCodes={filteredFaultCodes} />
+          )}
 
-        {currentPage === 'devices' && (
-          <DeviceManagement darkMode={darkMode} vehicles={filteredVehicles} />
-        )}
+          {currentPage === 'devices' && (
+            <DeviceManagement darkMode={darkMode} vehicles={filteredVehicles} />
+          )}
 
-        {currentPage === 'fota' && (
-          <FotaUpdates darkMode={darkMode} vehicles={filteredVehicles} />
-        )}
+          {currentPage === 'fota' && (
+            <FotaUpdates darkMode={darkMode} vehicles={filteredVehicles} />
+          )}
 
-        {currentPage === 'configure' && (
-          <Configure darkMode={darkMode} />
-        )}
+          {currentPage === 'configure' && (
+            <Configure darkMode={darkMode} />
+          )}
 
-        {currentPage === 'enterprise' && (
-          <EnterpriseSettings darkMode={darkMode} />
-        )}
+          {currentPage === 'enterprise' && (
+            <EnterpriseSettings darkMode={darkMode} />
+          )}
 
-        {currentPage === 'mcu-data' && (
-          <McuData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-        )}
+          {currentPage === 'mcu-data' && (
+            <McuData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+          )}
 
-        {currentPage === 'vcu-data' && (
-          <VcuData
-            darkMode={darkMode}
-            vehicleInsights={filteredVehicleInsights}
-            vehicles={filteredVehicles}
-          />
-        )}
+          {currentPage === 'vcu-data' && (
+            <VcuData
+              darkMode={darkMode}
+              vehicleInsights={filteredVehicleInsights}
+              vehicles={filteredVehicles}
+            />
+          )}
 
-        {currentPage === 'ipc-data' && (
-          <BrakeData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-        )}
+          {currentPage === 'ipc-data' && (
+            <BrakeData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+          )}
 
-        {currentPage === 'bms-data' && (
-          <BmsData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-        )}
+          {currentPage === 'bms-data' && (
+            <BmsData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+          )}
 
-        {currentPage === 'heat-maps' && (
-          <HeatMaps darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-        )}
+          {currentPage === 'heat-maps' && (
+            <HeatMaps darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+          )}
 
-        {currentPage === 'add-vehicle' && (
-          <AddVehicle
-            darkMode={darkMode}
-            userRole={userRole}
-            onAdd={(vehicleData) => {
-              console.log('Vehicle Added', vehicleData);
-              setCurrentPage('dashboard');
-            }}
-          />
-        )}
+          {currentPage === 'add-vehicle' && (
+            <AddVehicle
+              darkMode={darkMode}
+              userRole={userRole}
+              onAdd={(vehicleData) => {
+                console.log('Vehicle Added', vehicleData);
+                setCurrentPage('dashboard');
+              }}
+            />
+          )}
 
-        {currentPage === 'dealer-management' && (
-          <DealerManagement darkMode={darkMode} />
-        )}
+          {currentPage === 'dealer-management' && (
+            <DealerManagement darkMode={darkMode} />
+          )}
+        </Suspense>
       </div>
     </div>
   );

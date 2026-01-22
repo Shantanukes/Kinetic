@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Sphere, Stars, Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
@@ -18,7 +18,7 @@ const ParticleRing = ({ count = 200, radius = 2 }) => {
     positions[i * 3 + 2] = Math.sin(angle) * r;
   }
 
-  useFrame((state) => {
+  useFrame(() => {
     if (points.current) {
         points.current.rotation.y += 0.002;
     }

@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import { 
   FileText, 
   Download, 
-  Printer, 
-  Filter, 
   Calendar, 
   ChevronDown,
-  BarChart,
   User,
   Truck,
   AlertTriangle,
   IndianRupee,
-  Share2
 } from 'lucide-react';
 import { 
   DRIVER_PERFORMANCE 
@@ -21,12 +17,10 @@ interface ReportsProps {
   darkMode: boolean;
   vehicleInsights: any[];
   faultCodes: any[];
-  trips: any[];
 }
 
-const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes, trips }) => {
+const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes }) => {
   const [activeTab, setActiveTab] = useState('vehicles');
-  const [dateRange, setDateRange] = useState('Last 30 Days');
 
   const tabs = [
     { id: 'vehicles', label: 'Vehicle Performance', icon: Truck },
@@ -285,7 +279,7 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
               darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-700'
             }`}>
               <Calendar size={18} />
-              {dateRange}
+              Last 30 Days
               <ChevronDown size={16} />
             </button>
             <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">

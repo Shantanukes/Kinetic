@@ -17,7 +17,6 @@ import {
   Truck,
   CircleDot,
   Square,
-  Gauge,
   Battery,
   Thermometer
 } from 'lucide-react';

@@ -478,14 +478,14 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                             {alerts.slice(0, 4).map((alert, idx) => (
                                 <div key={idx} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-700/50 px-2 rounded-lg transition-colors">
                                     <div className="flex items-center space-x-3">
-                                        <div className={`p-2 rounded-full ${alert.severity === 'critical' ? 'bg-red-100 text-red-600' :
-                                                alert.severity === 'high' ? 'bg-orange-100 text-orange-600' :
+                                        <div className={`p-2 rounded-full ${alert.type === 'critical' ? 'bg-red-100 text-red-600' :
+                                                alert.type === 'warning' ? 'bg-orange-100 text-orange-600' :
                                                     'bg-blue-100 text-blue-600'
                                             }`}>
-                                            {alert.severity === 'critical' ? <AlertTriangle size={16} /> : <Activity size={16} />}
+                                            {alert.type === 'critical' ? <AlertTriangle size={16} /> : <Activity size={16} />}
                                         </div>
                                         <div>
-                                            <p className={`text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>{alert.message}</p>
+                                            <p className={`text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>{alert.title}</p>
                                             <p className="text-xs text-gray-500">{alert.vehicle}</p>
                                         </div>
                                     </div>

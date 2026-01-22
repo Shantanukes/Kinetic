@@ -23,6 +23,9 @@ type TelemetryPoint = {
   temp: number;
   torque: number;
   power: number;
+  controllerTemp: number;
+  rpm: number;
+  motorVoltage: number;
 };
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -43,18 +46,22 @@ const buildInitialSeries = (
   const series: TelemetryPoint[] = [];
   let speed = clamp(baseSpeed * 0.6, 10, 50);
   let temp = 35 + (1 - healthFactor) * 6;
+  let controllerTemp = 30 + (1 - healthFactor) * 4;
   let torque = 70 + healthFactor * 20;
   let power = 25 + utilization * 10;
   for (let i = points - 1; i >= 0; i -= 1) {
     const ts = now - i * stepSeconds * 1000;
     const target = baseSpeed + 18 * utilization + 18 * Math.sin((points - i) / 6) + 10 * Math.sin((points - i) / 14);
     speed = clamp(speed + (target - speed) * 0.18, 0, 120);
+    const rpm = clamp(speed * 65, 0, 8000); // Approx RPM based on speed
     const accel = clamp((speed - (series[series.length - 1]?.speed ?? speed)) / stepSeconds / 3.6, -3, 3);
     const load = clamp(accel / 3, 0, 1);
     torque = clamp(60 + load * 150 + (speed / 120) * 35 + healthFactor * 20, 0, 250);
     temp = clamp(temp + load * 1.0 - 0.2 + (speed / 120) * 0.12 + (1 - healthFactor) * 0.15, 25, 90);
+    controllerTemp = clamp(controllerTemp + load * 0.8 - 0.15 + (speed / 120) * 0.1 + (1 - healthFactor) * 0.1, 25, 85);
+    const motorVoltage = clamp(72 - load * 5 + (speed / 120) * 2, 60, 84); // Voltage sag under load
     power = clamp((torque / 250) * 85 + (speed / 120) * 15, 0, 100);
-    series.push({ ts, speed, accel, temp, torque, power });
+    series.push({ ts, speed, accel, temp, torque, power, controllerTemp, rpm, motorVoltage });
   }
   return series;
 };
@@ -97,10 +104,13 @@ const McuData: React.FC<McuDataProps> = ({ darkMode, vehicleInsights }) => {
         const ts = Date.now();
         const target = baseSpeed + 18 * utilization + 20 * Math.sin(ts / 60000) + 10 * Math.sin(ts / 13000);
         const nextSpeed = clamp(last.speed + (target - last.speed) * 0.22, 0, 120);
+        const rpm = clamp(nextSpeed * 65, 0, 8000);
         const accel = clamp((nextSpeed - last.speed) / stepSeconds / 3.6, -3, 3);
         const load = clamp(accel / 3, 0, 1);
         const torque = clamp(60 + load * 160 + (nextSpeed / 120) * 30 + healthFactor * 20, 0, 250);
         const temp = clamp(last.temp + load * 0.8 - 0.18 + (nextSpeed / 120) * 0.12 + (1 - healthFactor) * 0.08, 25, 90);
+        const controllerTemp = clamp(last.controllerTemp + load * 0.7 - 0.12 + (nextSpeed / 120) * 0.1 + (1 - healthFactor) * 0.08, 25, 85);
+        const motorVoltage = clamp(72 - load * 5 + (nextSpeed / 120) * 2, 60, 84);
         const power = clamp((torque / 250) * 85 + (nextSpeed / 120) * 15, 0, 100);
         const nextPoint: TelemetryPoint = {
           ts,
@@ -108,7 +118,10 @@ const McuData: React.FC<McuDataProps> = ({ darkMode, vehicleInsights }) => {
           accel,
           temp,
           torque,
-          power
+          power,
+          controllerTemp,
+          rpm,
+          motorVoltage
         };
         const updated = [...prev.slice(1), nextPoint];
         return updated;
@@ -246,7 +259,16 @@ const McuData: React.FC<McuDataProps> = ({ darkMode, vehicleInsights }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {renderArea('Controller Temperature', 'controllerTemp', '°C', 25, 85)}
+        {renderArea('Motor RPM', 'rpm', 'RPM', 0, 8000)}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {renderArea('Motor Voltage', 'motorVoltage', 'V', 50, 90)}
         {renderArea('Torque', 'torque', 'Nm', 0, 250)}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {renderArea('Power Generation', 'power', '%', 0, 100)}
       </div>
     </main>
