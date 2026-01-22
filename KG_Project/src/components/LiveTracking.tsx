@@ -202,7 +202,7 @@ const LiveTracking: React.FC<LiveTrackingProps> = ({ vehicles, darkMode }) => {
           <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-4`}>
             Fleet Vehicles ({vehicles.length})
           </h3>
-          <div className="space-y-3 max-h-[550px] overflow-y-auto custom-scrollbar">
+          <div className="space-y-3 max-h-[550px] overflow-y-auto custom-scrollbar md:overflow-y-auto">
             {vehicles.map((vehicle) => (
               <div
                 key={vehicle.id}

@@ -29,11 +29,22 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <aside className={`hidden md:block fixed left-0 top-0 h-full transition-all duration-300 z-40 overflow-y-auto ${sidebarOpen ? 'w-64' : 'w-20'
+    <>
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <aside className={`fixed left-0 top-0 h-screen transition-all duration-300 z-50 ${
+        sidebarOpen ? 'w-64' : 'w-0 md:w-20'
       } ${darkMode
         ? 'bg-gray-900/95 backdrop-blur-xl border-r border-gray-800/50'
         : 'bg-white/95 backdrop-blur-xl border-r border-gray-200/50 shadow-xl'
-      }`}>
+      } flex flex-col ${sidebarOpen ? 'overflow-hidden' : 'overflow-visible md:overflow-hidden'}`}>
       <div className={`flex items-center justify-between p-4 ${darkMode ? 'border-b border-gray-800/50' : 'border-b border-gray-200/50'
         }`}>
         {sidebarOpen ? (
@@ -60,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </button>
       </div>
 
-      <nav className="p-4 space-y-2">
+      <nav className={`p-3 md:p-4 space-y-2 flex-1 ${sidebarOpen ? 'overflow-y-auto' : 'overflow-hidden'} md:overflow-y-auto`}>
         {menuItems.map((item) => (
           <div key={item.id}>
             <button
@@ -69,6 +80,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                   toggleMenu(item.id);
                 } else {
                   setCurrentPage(item.id);
+                  // Close sidebar on mobile after selection
+                  if (window.innerWidth < 768) {
+                    setSidebarOpen(false);
+                  }
                 }
               }}
               className={`relative w-full flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-300 group overflow-hidden ${currentPage === item.id || (item.subItems && item.subItems.some(sub => sub.id === currentPage))
@@ -109,7 +124,13 @@ const Sidebar: React.FC<SidebarProps> = ({
                 {item.subItems.map((subItem) => (
                   <button
                     key={subItem.id}
-                    onClick={() => setCurrentPage(subItem.id)}
+                    onClick={() => {
+                      setCurrentPage(subItem.id);
+                      // Close sidebar on mobile after selection
+                      if (window.innerWidth < 768) {
+                        setSidebarOpen(false);
+                      }
+                    }}
                     className={`w-full flex items-center space-x-3 px-4 py-2 rounded-lg transition-all duration-300 ${currentPage === subItem.id
                         ? darkMode
                           ? 'bg-gray-700 text-white'
@@ -129,6 +150,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         ))}
       </nav>
     </aside>
+    </>
   );
 };
 

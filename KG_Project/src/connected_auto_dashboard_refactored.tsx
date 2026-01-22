@@ -166,7 +166,7 @@ const ConnectedAutoDashboard = () => {
 
   // Main Dashboard
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-black' : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-gray-100'} transition-colors duration-300`}>
+    <div className={`min-h-screen ${darkMode ? 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-black' : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-gray-100'} transition-colors duration-300 overflow-x-hidden`}>
       <Sidebar
         sidebarOpen={sidebarOpen}
         darkMode={darkMode}
@@ -176,7 +176,7 @@ const ConnectedAutoDashboard = () => {
         setCurrentPage={setCurrentPage}
       />
 
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'} ml-0`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'} ml-0 w-full min-w-0`}>
         <Header
           darkMode={darkMode}
           notifications={notifications}
@@ -189,6 +189,7 @@ const ConnectedAutoDashboard = () => {
           setCurrentPage={setCurrentPage}
           setShowUserMenu={setShowUserMenu}
           handleLogout={handleLogout}
+          setSidebarOpen={setSidebarOpen}
         />
 
         <Suspense fallback={

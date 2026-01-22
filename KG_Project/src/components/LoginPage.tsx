@@ -84,7 +84,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Login Form */}
-      <div className="w-full lg:w-[60%] flex items-center justify-center p-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 transition-colors duration-300 overflow-y-auto">
+      <div className="w-full lg:w-[30%] flex items-center justify-center p-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 transition-colors duration-300 overflow-y-auto">
         <div className="w-full max-w-md">
           {!showForgotPassword && !isSignup ? (
             <>
@@ -440,7 +440,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
       </div>
 
       {/* Right Side - Animated Illustration/GIF */}
-      <div className="hidden lg:flex lg:w-[40%] bg-gradient-to-br from-gray-800 via-green-900 to-gray-900 items-center justify-center p-8 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-[70%] bg-gradient-to-br from-gray-800 via-green-900 to-gray-900 items-center justify-center p-8 relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
         <div className="absolute top-20 left-20 w-72 h-72 bg-green-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
