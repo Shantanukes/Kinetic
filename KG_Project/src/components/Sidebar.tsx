@@ -45,27 +45,23 @@ const Sidebar: React.FC<SidebarProps> = ({
         ? 'bg-gray-900/95 backdrop-blur-xl border-r border-gray-800/50'
         : 'bg-white/95 backdrop-blur-xl border-r border-gray-200/50 shadow-xl'
       } flex flex-col ${sidebarOpen ? 'overflow-hidden' : 'overflow-visible md:overflow-hidden'}`}>
-      <div className={`flex items-center justify-between p-4 ${darkMode ? 'border-b border-gray-800/50' : 'border-b border-gray-200/50'
+      <div className={`flex ${sidebarOpen ? 'flex-row items-center justify-between' : 'flex-col items-center justify-center gap-4'} p-4 ${darkMode ? 'border-b border-gray-800/50' : 'border-b border-gray-200/50'
         }`}>
-        {sidebarOpen ? (
-          <div className="flex items-center space-x-3">
-            <div className="h-10 w-auto flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
-              <img src={logo} alt="Kinetic Green" className="h-10 w-auto object-contain drop-shadow-lg" />
-            </div>
+        <div className={`flex items-center ${sidebarOpen ? 'space-x-3' : 'justify-center w-full'}`}>
+          <div className={`flex items-center justify-center transform hover:scale-110 transition-transform duration-300 ${sidebarOpen ? 'h-10 w-auto' : 'h-8 w-auto'}`}>
+            <img src={logo} alt="Kinetic Green" className={`${sidebarOpen ? 'h-10' : 'h-8'} w-auto object-contain drop-shadow-lg`} />
+          </div>
+          {sidebarOpen && (
             <span className={`font-bold text-lg bg-gradient-to-r ${darkMode ? 'from-green-400 to-emerald-400' : 'from-green-600 to-emerald-600'
               } bg-clip-text text-transparent`}>Kinetic Green</span>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center w-full transform hover:scale-110 transition-transform duration-300">
-            <img src={logo} alt="Kinetic Green" className="h-8 w-auto object-contain drop-shadow-lg" />
-          </div>
-        )}
+          )}
+        </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className={`p-2 rounded-xl transition-all duration-300 ${darkMode
               ? 'hover:bg-gray-800 text-gray-400 hover:text-white'
               : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
-            } ${!sidebarOpen ? 'absolute top-4 right-2' : ''}`}
+            }`}
         >
           {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>

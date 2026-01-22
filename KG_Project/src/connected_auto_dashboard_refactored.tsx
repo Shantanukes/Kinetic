@@ -176,7 +176,7 @@ const ConnectedAutoDashboard = () => {
         setCurrentPage={setCurrentPage}
       />
 
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'} ml-0 w-full min-w-0`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'} ml-0 min-w-0`}>
         <Header
           darkMode={darkMode}
           notifications={notifications}

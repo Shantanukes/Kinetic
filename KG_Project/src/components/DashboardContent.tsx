@@ -126,7 +126,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
 
     return (
         <main
-            className={`p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 min-h-screen ${darkMode
+            className={`p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 ${darkMode
                 ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white'
                 : 'bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50 text-gray-900'
             } font-sans`}
@@ -158,16 +158,16 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 transition-all duration-300 ease-in-out">
 
                 {/* Left Column: Status & Map */}
-                <div className="lg:col-span-1 space-y-4 sm:space-y-6">
+                <div className="col-span-1 md:col-span-2 lg:col-span-1 xl:col-span-1 space-y-4 sm:space-y-6 flex flex-col h-full">
 
                     {/* Live Status Card */}
                     <div className={`p-4 sm:p-6 rounded-2xl ${darkMode
                             ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                             : 'bg-white shadow-lg border border-gray-100'
-                        } transform hover:scale-[1.02] transition-all duration-300`}>
+                        } transform hover:scale-[1.02] transition-all duration-300 flex-1 flex flex-col justify-between`}>
                         <div className="flex justify-between items-start mb-4 sm:mb-6">
                             <div>
                                 <h3 className="font-bold text-base sm:text-lg md:text-xl mb-1">Live Status</h3>
@@ -273,35 +273,35 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                 </div>
 
                 {/* Right Column: Metrics & Charts */}
-                <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+                <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-3 space-y-4 sm:space-y-6 flex flex-col">
 
                     {/* Key Metrics Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-                        <div className={`p-3 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl ${darkMode
+                        <div className={`p-4 sm:p-5 rounded-xl sm:rounded-2xl ${darkMode
                                 ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                                 : 'bg-white shadow-lg border border-gray-100'
-                            } transform hover:scale-[1.02] hover:shadow-xl transition-all duration-300 cursor-pointer group`}>
-                            <div className="p-3 sm:p-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg sm:rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px]">
+                            } transform hover:scale-[1.02] hover:shadow-xl transition-all duration-300 cursor-pointer group h-full flex flex-col justify-center`}>
+                            <div className="p-3 sm:p-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg sm:rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] w-full">
                                 <MapIcon size={20} className="sm:w-6 sm:h-6 mb-1 sm:mb-2" />
                                 <p className="text-[10px] sm:text-xs font-medium mb-0.5 sm:mb-1 opacity-90">Distance Travelled</p>
                                 <p className="text-lg sm:text-xl md:text-2xl font-bold">{environmentalData.totalKm.toLocaleString()}<span className="text-xs sm:text-sm font-normal ml-1">m</span></p>
                             </div>
                         </div>
-                        <div className={`p-5 rounded-2xl ${darkMode
+                        <div className={`p-4 sm:p-5 rounded-xl sm:rounded-2xl ${darkMode
                                 ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                                 : 'bg-white shadow-lg border border-gray-100'
-                            } transform hover:scale-[1.02] hover:shadow-xl transition-all duration-300 cursor-pointer group`}>
-                            <div className="p-3 sm:p-4 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg sm:rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px]">
+                            } transform hover:scale-[1.02] hover:shadow-xl transition-all duration-300 cursor-pointer group h-full flex flex-col justify-center`}>
+                            <div className="p-3 sm:p-4 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg sm:rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] w-full">
                                 <Zap size={20} className="sm:w-6 sm:h-6 mb-1 sm:mb-2" />
                                 <p className="text-[10px] sm:text-xs font-medium mb-0.5 sm:mb-1 opacity-90">Energy Consumed</p>
                                 <p className="text-lg sm:text-xl md:text-2xl font-bold">3,640<span className="text-xs sm:text-sm font-normal ml-1">kWh</span></p>
                             </div>
                         </div>
-                        <div className={`p-3 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl ${darkMode
+                        <div className={`p-4 sm:p-5 rounded-xl sm:rounded-2xl ${darkMode
                                 ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                                 : 'bg-white shadow-lg border border-gray-100'
-                            } transform hover:scale-[1.02] hover:shadow-xl transition-all duration-300 cursor-pointer group`}>
-                            <div className="p-3 sm:p-4 bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-lg sm:rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px]">
+                            } transform hover:scale-[1.02] hover:shadow-xl transition-all duration-300 cursor-pointer group h-full flex flex-col justify-center`}>
+                            <div className="p-3 sm:p-4 bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-lg sm:rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] w-full">
                                 <Clock size={20} className="sm:w-6 sm:h-6 mb-1 sm:mb-2" />
                                 <p className="text-[10px] sm:text-xs font-medium mb-0.5 sm:mb-1 opacity-90">Avg Trip Time</p>
                                 <p className="text-lg sm:text-xl md:text-2xl font-bold">50<span className="text-xs sm:text-sm font-normal ml-1">min</span></p>
@@ -312,7 +312,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                     {/* Middle Row: Charts */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                         {/* Expenses / Savings Chart */}
-                        <div className={`p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'}`}>
+                        <div className={`p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'} h-full flex flex-col justify-between`}>
                             <div className="flex justify-between items-center mb-4 sm:mb-6">
                                 <h3 className="font-bold text-sm sm:text-base">Cost Savings</h3>
                                 <div className="flex items-center text-green-500 text-xs sm:text-sm font-bold">
@@ -320,7 +320,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                 </div>
                             </div>
                             {/* CSS Bar Chart Simulation */}
-                            <div className="h-32 sm:h-40 md:h-48 flex items-end justify-between space-x-1 sm:space-x-2">
+                            <div className="h-32 sm:h-40 md:h-48 flex items-end justify-between space-x-1 sm:space-x-2 mt-auto">
                                 {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
                                     <div key={i} className="flex-1 flex flex-col justify-end group">
                                         <div
@@ -341,7 +341,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                         </div>
 
                         {/* Sessions Chart */}
-                        <div className={`p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'}`}>
+                        <div className={`p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'} h-full flex flex-col justify-between`}>
                             <div className="flex justify-between items-center mb-4 sm:mb-6">
                                 <h3 className="font-bold text-sm sm:text-base">Trip Sessions</h3>
                                 <div className="text-xs sm:text-sm text-gray-500">Total: 842</div>
