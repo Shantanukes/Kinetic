@@ -166,7 +166,7 @@ const ConnectedAutoDashboard = () => {
 
   // Main Dashboard
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-black' : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-gray-100'} transition-colors duration-300 overflow-x-hidden`}>
+    <div className={`h-screen w-screen overflow-hidden ${darkMode ? 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-black' : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-gray-100'} transition-colors duration-300`}>
       <Sidebar
         sidebarOpen={sidebarOpen}
         darkMode={darkMode}
@@ -176,7 +176,7 @@ const ConnectedAutoDashboard = () => {
         setCurrentPage={setCurrentPage}
       />
 
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'} ml-0 min-w-0`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'} ml-0 h-full flex flex-col`}>
         <Header
           darkMode={darkMode}
           notifications={notifications}
@@ -192,24 +192,27 @@ const ConnectedAutoDashboard = () => {
           setSidebarOpen={setSidebarOpen}
         />
 
-        <Suspense fallback={
-          <div className="flex items-center justify-center h-[calc(100vh-80px)]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          </div>
-        }>
-          {currentPage === 'dashboard' && (
-            <DashboardContent
-              darkMode={darkMode}
-              deviceStats={deviceStats}
-              salesData={salesData}
-              environmentalData={environmentalData}
-              quickActions={QUICK_ACTIONS}
-              alerts={filteredAlerts}
-              vehicles={displayVehicles}
-              trips={filteredTrips}
-              performanceMetrics={performanceMetrics}
-            />
-          )}
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center h-full">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+          }
+        >
+          <main className="flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
+            {currentPage === 'dashboard' && (
+              <DashboardContent
+                darkMode={darkMode}
+                deviceStats={deviceStats}
+                salesData={salesData}
+                environmentalData={environmentalData}
+                quickActions={QUICK_ACTIONS}
+                alerts={filteredAlerts}
+                vehicles={displayVehicles}
+                trips={filteredTrips}
+                performanceMetrics={performanceMetrics}
+              />
+            )}
 
           {currentPage === 'tracking' && (
             <LiveTracking vehicles={displayVehicles} darkMode={darkMode} />
@@ -281,6 +284,7 @@ const ConnectedAutoDashboard = () => {
           {currentPage === 'dealer-management' && (
             <DealerManagement darkMode={darkMode} />
           )}
+        </main>
         </Suspense>
       </div>
     </div>
