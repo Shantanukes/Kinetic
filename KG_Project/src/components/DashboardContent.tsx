@@ -11,6 +11,7 @@ import {
     Plus,
     Activity
 } from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import kineticScooter from '../assets/image-1768823038663.png';
 import AddVehicle from './AddVehicle';
 import { DeviceStats, SalesData, EnvironmentalData, QuickAction, Alert, Vehicle, Trip, PerformanceMetrics } from '../types';
@@ -311,40 +312,89 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
 
                     {/* Middle Row: Charts */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-                        {/* Expenses / Savings Chart */}
+                        {/* Cost Savings vs Fuel Types Chart */}
                         <div className={`p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'} h-full flex flex-col justify-between`}>
-                            <div className="flex justify-between items-center mb-4 sm:mb-6">
-                                <h3 className="font-bold text-sm sm:text-base">Cost Savings</h3>
-                                <div className="flex items-center text-green-500 text-xs sm:text-sm font-bold">
+                            <div className="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 className="font-bold text-sm sm:text-base">Cost Savings vs Fuel Types</h3>
+                                    <p className="text-[10px] text-gray-500">Daily running cost comparison</p>
+                                </div>
+                                <div className="flex items-center text-green-500 text-xs sm:text-sm font-bold bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-lg">
                                     <TrendingUp size={14} className="sm:w-4 sm:h-4 mr-1" /> ₹19,240
                                 </div>
                             </div>
-                            {/* CSS Bar Chart Simulation */}
-                            <div className="h-32 sm:h-40 md:h-48 flex items-end justify-between space-x-1 sm:space-x-2 mt-auto">
-                                {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
-                                    <div key={i} className="flex-1 flex flex-col justify-end group">
-                                        <div
-                                            className="w-full bg-blue-100 dark:bg-blue-900/30 rounded-t-sm relative transition-all hover:bg-blue-200"
-                                            style={{ height: `${h}%` }}
-                                        >
-                                            <div
-                                                className="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all group-hover:bg-blue-600"
-                                                style={{ height: `${h * 0.6}%` }}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="flex justify-between text-[10px] sm:text-xs text-gray-400 mt-2">
-                                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                            
+                            <div className="h-48 sm:h-56 w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={[
+                                        { day: 'Mon', petrol: 450, diesel: 380, cng: 250, ev: 40 },
+                                        { day: 'Tue', petrol: 480, diesel: 400, cng: 260, ev: 45 },
+                                        { day: 'Wed', petrol: 520, diesel: 440, cng: 280, ev: 50 },
+                                        { day: 'Thu', petrol: 490, diesel: 410, cng: 270, ev: 48 },
+                                        { day: 'Fri', petrol: 550, diesel: 460, cng: 290, ev: 55 },
+                                        { day: 'Sat', petrol: 600, diesel: 500, cng: 310, ev: 60 },
+                                        { day: 'Sun', petrol: 580, diesel: 480, cng: 300, ev: 58 },
+                                    ]} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                        <defs>
+                                            <linearGradient id="colorPetrol" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#EF4444" stopOpacity={0.1}/>
+                                                <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
+                                            </linearGradient>
+                                            <linearGradient id="colorDiesel" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.1}/>
+                                                <stop offset="95%" stopColor="#F59E0B" stopOpacity={0}/>
+                                            </linearGradient>
+                                            <linearGradient id="colorCng" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.1}/>
+                                                <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                                            </linearGradient>
+                                            <linearGradient id="colorEv" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
+                                                <stop offset="95%" stopColor="#10B981" stopOpacity={0.1}/>
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={darkMode ? "#374151" : "#E5E7EB"} />
+                                        <XAxis 
+                                            dataKey="day" 
+                                            axisLine={false} 
+                                            tickLine={false} 
+                                            tick={{ fill: darkMode ? '#9CA3AF' : '#6B7280', fontSize: 10 }} 
+                                            dy={10}
+                                        />
+                                        <YAxis 
+                                            axisLine={false} 
+                                            tickLine={false} 
+                                            tick={{ fill: darkMode ? '#9CA3AF' : '#6B7280', fontSize: 10 }}
+                                            tickFormatter={(value) => `₹${value}`}
+                                        />
+                                        <Tooltip 
+                                            contentStyle={{ 
+                                                backgroundColor: darkMode ? '#1F2937' : '#FFFFFF', 
+                                                borderColor: darkMode ? '#374151' : '#E5E7EB',
+                                                borderRadius: '8px',
+                                                fontSize: '12px',
+                                                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                                            }}
+                                            formatter={(value: number) => [`₹${value}`, '']}
+                                        />
+                                        <Legend 
+                                            iconType="circle" 
+                                            wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} 
+                                        />
+                                        <Area type="monotone" dataKey="petrol" name="Petrol" stroke="#EF4444" fillOpacity={1} fill="url(#colorPetrol)" strokeWidth={2} />
+                                        <Area type="monotone" dataKey="diesel" name="Diesel" stroke="#F59E0B" fillOpacity={1} fill="url(#colorDiesel)" strokeWidth={2} />
+                                        <Area type="monotone" dataKey="cng" name="CNG" stroke="#3B82F6" fillOpacity={1} fill="url(#colorCng)" strokeWidth={2} />
+                                        <Area type="monotone" dataKey="ev" name="Electric (EV)" stroke="#10B981" fillOpacity={1} fill="url(#colorEv)" strokeWidth={3} />
+                                    </AreaChart>
+                                </ResponsiveContainer>
                             </div>
                         </div>
 
-                        {/* Sessions Chart */}
+                        {/* Carbon Saved Chart */}
                         <div className={`p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'} h-full flex flex-col justify-between`}>
                             <div className="flex justify-between items-center mb-4 sm:mb-6">
-                                <h3 className="font-bold text-sm sm:text-base">Trip Sessions</h3>
-                                <div className="text-xs sm:text-sm text-gray-500">Total: 842</div>
+                                <h3 className="font-bold text-sm sm:text-base">Carbon Saved</h3>
+                                <div className="text-xs sm:text-sm text-green-500 font-bold">Total: 842 kg</div>
                             </div>
                             {/* Detailed Line Chart with hover info */}
                             <div className="h-40 sm:h-48 md:h-56 relative border-l border-b border-gray-200 dark:border-gray-700 pl-6 sm:pl-8 pb-6 sm:pb-8">
@@ -366,49 +416,49 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                         const svg = e.currentTarget;
                                         const rect = svg.getBoundingClientRect();
                                         const x = ((e.clientX - rect.left) / rect.width) * 360;
-                                        const tripData = [
-                                            { x: 0, y: 145, time: '10:00:00', sessions: 42 },
-                                            { x: 12, y: 140, time: '10:00:05', sessions: 48 },
-                                            { x: 24, y: 135, time: '10:00:10', sessions: 54 },
-                                            { x: 36, y: 130, time: '10:00:15', sessions: 58 },
-                                            { x: 48, y: 125, time: '10:00:20', sessions: 62 },
-                                            { x: 60, y: 120, time: '10:00:25', sessions: 68 },
-                                            { x: 72, y: 115, time: '10:00:30', sessions: 72 },
-                                            { x: 84, y: 110, time: '10:00:35', sessions: 75 },
-                                            { x: 96, y: 105, time: '10:00:40', sessions: 78 },
-                                            { x: 108, y: 100, time: '10:00:45', sessions: 82 },
-                                            { x: 120, y: 95, time: '10:00:50', sessions: 88 },
-                                            { x: 132, y: 90, time: '10:00:55', sessions: 92 },
-                                            { x: 144, y: 85, time: '10:01:00', sessions: 98 },
-                                            { x: 156, y: 80, time: '10:01:05', sessions: 102 },
-                                            { x: 168, y: 75, time: '10:01:10', sessions: 105 },
-                                            { x: 180, y: 70, time: '10:01:15', sessions: 108 },
-                                            { x: 192, y: 65, time: '10:01:20', sessions: 112 },
-                                            { x: 204, y: 60, time: '10:01:25', sessions: 118 },
-                                            { x: 216, y: 55, time: '10:01:30', sessions: 125 },
-                                            { x: 228, y: 60, time: '10:01:35', sessions: 118 },
-                                            { x: 240, y: 65, time: '10:01:40', sessions: 112 },
-                                            { x: 252, y: 70, time: '10:01:45', sessions: 108 },
-                                            { x: 264, y: 75, time: '10:01:50', sessions: 105 },
-                                            { x: 276, y: 80, time: '10:01:55', sessions: 102 },
-                                            { x: 288, y: 85, time: '10:02:00', sessions: 98 },
-                                            { x: 300, y: 90, time: '10:02:05', sessions: 92 },
-                                            { x: 312, y: 95, time: '10:02:10', sessions: 88 },
-                                            { x: 324, y: 100, time: '10:02:15', sessions: 82 },
-                                            { x: 336, y: 105, time: '10:02:20', sessions: 78 },
-                                            { x: 348, y: 110, time: '10:02:25', sessions: 75 }
+                                        const carbonData = [
+                                            { x: 0, y: 145, time: '10:00', value: 42 },
+                                            { x: 12, y: 140, time: '10:05', value: 48 },
+                                            { x: 24, y: 135, time: '10:10', value: 54 },
+                                            { x: 36, y: 130, time: '10:15', value: 58 },
+                                            { x: 48, y: 125, time: '10:20', value: 62 },
+                                            { x: 60, y: 120, time: '10:25', value: 68 },
+                                            { x: 72, y: 115, time: '10:30', value: 72 },
+                                            { x: 84, y: 110, time: '10:35', value: 75 },
+                                            { x: 96, y: 105, time: '10:40', value: 78 },
+                                            { x: 108, y: 100, time: '10:45', value: 82 },
+                                            { x: 120, y: 95, time: '10:50', value: 88 },
+                                            { x: 132, y: 90, time: '10:55', value: 92 },
+                                            { x: 144, y: 85, time: '11:00', value: 98 },
+                                            { x: 156, y: 80, time: '11:05', value: 102 },
+                                            { x: 168, y: 75, time: '11:10', value: 105 },
+                                            { x: 180, y: 70, time: '11:15', value: 108 },
+                                            { x: 192, y: 65, time: '11:20', value: 112 },
+                                            { x: 204, y: 60, time: '11:25', value: 118 },
+                                            { x: 216, y: 55, time: '11:30', value: 125 },
+                                            { x: 228, y: 60, time: '11:35', value: 118 },
+                                            { x: 240, y: 65, time: '11:40', value: 112 },
+                                            { x: 252, y: 70, time: '11:45', value: 108 },
+                                            { x: 264, y: 75, time: '11:50', value: 105 },
+                                            { x: 276, y: 80, time: '11:55', value: 102 },
+                                            { x: 288, y: 85, time: '12:00', value: 98 },
+                                            { x: 300, y: 90, time: '12:05', value: 92 },
+                                            { x: 312, y: 95, time: '12:10', value: 88 },
+                                            { x: 324, y: 100, time: '12:15', value: 82 },
+                                            { x: 336, y: 105, time: '12:20', value: 78 },
+                                            { x: 348, y: 110, time: '12:25', value: 75 }
                                         ];
-                                        const nearest = tripData.reduce((prev, curr) => {
+                                        const nearest = carbonData.reduce((prev, curr) => {
                                             return Math.abs(curr.x - x) < Math.abs(prev.x - x) ? curr : prev;
                                         });
-                                        setTripTooltip({ x: nearest.x, y: nearest.y, time: nearest.time, value: nearest.sessions });
+                                        setTripTooltip({ x: nearest.x, y: nearest.y, time: nearest.time, value: nearest.value });
                                     }}
                                     onMouseLeave={() => setTripTooltip(null)}
                                 >
                                     <defs>
-                                        <linearGradient id="tripSessionGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                            <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
-                                            <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.05" />
+                                        <linearGradient id="carbonGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stopColor="#10B981" stopOpacity="0.3" />
+                                            <stop offset="100%" stopColor="#10B981" stopOpacity="0.05" />
                                         </linearGradient>
                                     </defs>
 
@@ -418,7 +468,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                     <line x1="0" y1="120" x2="360" y2="120" stroke={darkMode ? '#374151' : '#E5E7EB'} strokeWidth="1" />
                                     <line x1="0" y1="160" x2="360" y2="160" stroke={darkMode ? '#374151' : '#E5E7EB'} strokeWidth="1" />
 
-                                    {/* Vertical lines at x=90, 180, 270, 360 */}
+                                    {/* Vertical lines */}
                                     <line x1="90" y1="0" x2="90" y2="200" stroke={darkMode ? '#374151' : '#E5E7EB'} strokeWidth="1" />
                                     <line x1="180" y1="0" x2="180" y2="200" stroke={darkMode ? '#374151' : '#E5E7EB'} strokeWidth="1" />
                                     <line x1="270" y1="0" x2="270" y2="200" stroke={darkMode ? '#374151' : '#E5E7EB'} strokeWidth="1" />
@@ -426,7 +476,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
 
                                     {/* Gradient fill area */}
                                     <polygon
-                                        fill="url(#tripSessionGradient)"
+                                        fill="url(#carbonGradient)"
                                         points="0,145 12,140 24,135 36,130 48,125 60,120 72,115 84,110 96,105 108,100 120,95 132,90 144,85 156,80 168,75 180,70 192,65 204,60 216,55 228,60 240,65 252,70 264,75 276,80 288,85 300,90 312,95 324,100 336,105 348,110 360,200 0,200"
                                         style={{
                                             strokeDasharray: '1000',
@@ -438,7 +488,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                     {/* Animated line */}
                                     <polyline
                                         fill="none"
-                                        stroke="#8B5CF6"
+                                        stroke="#10B981"
                                         strokeWidth="2.5"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -458,7 +508,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                             y1="0"
                                             x2={tripTooltip.x}
                                             y2="200"
-                                            stroke="#8B5CF6"
+                                            stroke="#10B981"
                                             strokeWidth="1"
                                             strokeDasharray="4 2"
                                             opacity="0.5"
@@ -468,8 +518,8 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                     {/* Hover point */}
                                     {tripTooltip && (
                                         <>
-                                            <circle cx={tripTooltip.x} cy={tripTooltip.y} r="4" fill="white" stroke="#8B5CF6" strokeWidth="2" />
-                                            <circle cx={tripTooltip.x} cy={tripTooltip.y} r="8" fill="#8B5CF6" fillOpacity="0.2" />
+                                            <circle cx={tripTooltip.x} cy={tripTooltip.y} r="4" fill="white" stroke="#10B981" strokeWidth="2" />
+                                            <circle cx={tripTooltip.x} cy={tripTooltip.y} r="8" fill="#10B981" fillOpacity="0.2" />
                                         </>
                                     )}
                                 </svg>
@@ -485,53 +535,78 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                         }}
                                     >
                                         <div className={`px-3 py-2 rounded-lg shadow-lg ${darkMode ? 'bg-gray-700 border border-gray-600' : 'bg-white border border-gray-200'}`}>
-                                            <div className="text-xs font-semibold text-purple-500">{tripTooltip.time}</div>
+                                            <div className="text-xs font-semibold text-green-500">{tripTooltip.time}</div>
                                             <div className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                                                {tripTooltip.value} trips
+                                                {tripTooltip.value} kg
                                             </div>
                                         </div>
                                     </div>
                                 )}
                             </div>
                             <div className="flex justify-between text-[10px] sm:text-xs text-gray-400 mt-2 pl-6 sm:pl-8">
-                                <span>10:00</span><span>10:00</span><span>10:00</span><span>10:01</span><span>10:01</span><span>10:02</span>
+                                <span>10:00</span><span>10:30</span><span>11:00</span><span>11:30</span><span>12:00</span><span>12:30</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Activity List */}
+                    {/* EV News & Insights */}
                     <div className={`p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'}`}>
                         <div className="flex justify-between items-center mb-3 sm:mb-4">
-                            <h3 className="font-bold text-sm sm:text-base">Recent Activity</h3>
+                            <h3 className="font-bold text-sm sm:text-base">EV News & Future Growth</h3>
                             <button className="text-[10px] sm:text-xs text-blue-500 font-semibold hover:underline">View All</button>
                         </div>
-                        <div className="space-y-2 sm:space-y-3 md:space-y-4">
-                            {alerts.slice(0, 4).map((alert, idx) => (
-                                <div key={idx} className="flex items-center justify-between py-1.5 sm:py-2 border-b border-gray-100 dark:border-gray-700 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-700/50 px-2 rounded-lg transition-colors">
-                                    <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
-                                        <div className={`p-1.5 sm:p-2 rounded-full flex-shrink-0 ${alert.type === 'critical' ? 'bg-red-100 text-red-600' :
-                                                alert.type === 'warning' ? 'bg-orange-100 text-orange-600' :
-                                                    'bg-blue-100 text-blue-600'
-                                            }`}>
-                                            {alert.type === 'critical' ? <AlertTriangle size={12} className="sm:w-4 sm:h-4" /> : <Activity size={12} className="sm:w-4 sm:h-4" />}
+                        <div className="space-y-3 sm:space-y-4">
+                            {[
+                                {
+                                    id: 1,
+                                    title: "Global EV Adoption to Triple by 2030",
+                                    excerpt: "New market analysis suggests a rapid surge in electric vehicle sales driven by policy changes and battery costs.",
+                                    category: "Growth",
+                                    badgeClass: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400",
+                                    date: "2h ago"
+                                },
+                                {
+                                    id: 2,
+                                    title: "Solid-State Batteries: The Next Frontier",
+                                    excerpt: "Breakthroughs in solid-state technology promise 2x range and 50% faster charging speeds.",
+                                    category: "Tech",
+                                    badgeClass: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400",
+                                    date: "5h ago"
+                                },
+                                {
+                                    id: 3,
+                                    title: "Sustainable Manufacturing in Auto Industry",
+                                    excerpt: "Leading manufacturers commit to carbon-neutral production lines by 2025.",
+                                    category: "Green",
+                                    badgeClass: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400",
+                                    date: "1d ago"
+                                },
+                                {
+                                    id: 4,
+                                    title: "Smart Grid Integration for EVs",
+                                    excerpt: "How V2G technology will stabilize the grid and lower energy costs for owners.",
+                                    category: "Future",
+                                    badgeClass: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400",
+                                    date: "2d ago"
+                                }
+                            ].map((post) => (
+                                <div key={post.id} className="group cursor-pointer">
+                                    <div className={`flex flex-col p-3 rounded-lg transition-all ${darkMode ? 'hover:bg-gray-700/50' : 'hover:bg-gray-50'}`}>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${post.badgeClass}`}>
+                                                {post.category}
+                                            </span>
+                                            <span className="text-[10px] text-gray-400">{post.date}</span>
                                         </div>
-                                        <div className="min-w-0 flex-1">
-                                            <p className={`text-xs sm:text-sm font-medium truncate ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>{alert.title}</p>
-                                            <p className="text-[10px] sm:text-xs text-gray-500 truncate">{alert.vehicle}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0 ml-2">
-                                        <span className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs rounded-full ${alert.status === 'active' ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : 'bg-gray-100 text-gray-600'
-                                            }`}>
-                                            {alert.status}
-                                        </span>
-                                        <span className="text-[10px] sm:text-xs text-gray-400 hidden sm:inline">{alert.timestamp}</span>
+                                        <h4 className={`text-sm font-bold mb-1 group-hover:text-blue-500 transition-colors ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+                                            {post.title}
+                                        </h4>
+                                        <p className="text-xs text-gray-500 line-clamp-2">
+                                            {post.excerpt}
+                                        </p>
                                     </div>
                                 </div>
                             ))}
-                            {alerts.length === 0 && (
-                                <div className="text-center text-gray-500 py-4">No recent activity</div>
-                            )}
                         </div>
                     </div>
 
