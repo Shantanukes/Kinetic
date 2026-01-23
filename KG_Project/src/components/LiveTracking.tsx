@@ -131,7 +131,7 @@ const LiveTracking: React.FC<LiveTrackingProps> = ({ vehicles, darkMode }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Map Container */}
         <div className={`lg:col-span-2 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg overflow-hidden`}>
-          <div className="h-[600px] relative">
+          <div className="h-[60vh] min-h-[400px] relative">
             {!isClient ? (
               <div className="flex items-center justify-center h-full">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>

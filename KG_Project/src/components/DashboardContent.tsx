@@ -262,7 +262,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                     <div className={`p-4 sm:p-6 rounded-2xl ${darkMode
                             ? 'bg-gradient-to-br from-gray-800 to-gray-800/80 border border-gray-700/50 shadow-xl'
                             : 'bg-white shadow-lg border border-gray-100'
-                        } transform hover:scale-[1.02] transition-all duration-300`}>
+                        } transform hover:scale-[1.02] transition-all duration-300 flex-1 flex flex-col justify-between`}>
                         <div className="mb-3 sm:mb-4">
                             <h3 className="font-bold text-base sm:text-lg md:text-xl mb-1">Real-Time Demand</h3>
                             <p className="text-[10px] sm:text-xs text-gray-500">Current power consumption</p>
