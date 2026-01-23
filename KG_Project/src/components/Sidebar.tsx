@@ -67,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </button>
       </div>
 
-      <nav className={`p-3 md:p-4 space-y-2 flex-1 ${sidebarOpen ? 'overflow-y-auto' : 'overflow-hidden'} md:overflow-y-auto`}>
+      <nav className="p-2 space-y-2 flex-1 overflow-y-auto custom-scrollbar">
         {menuItems.map((item) => (
           <div key={item.id}>
             <button
@@ -82,24 +82,24 @@ const Sidebar: React.FC<SidebarProps> = ({
                   }
                 }
               }}
-              className={`relative w-full flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-300 group overflow-hidden ${currentPage === item.id || (item.subItems && item.subItems.some(sub => sub.id === currentPage))
+              className={`relative w-full flex items-center ${sidebarOpen ? 'justify-between px-4' : 'justify-center px-0'} py-3 rounded-xl transition-all duration-300 group ${currentPage === item.id || (item.subItems && item.subItems.some(sub => sub.id === currentPage))
                   ? darkMode
-                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg shadow-green-500/30 translate-x-1'
-                    : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/30 translate-x-1'
+                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg shadow-green-500/30'
+                    : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/30'
                   : darkMode
-                    ? 'text-gray-300 hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:text-white hover:translate-x-1'
-                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-green-50 hover:text-green-700 hover:translate-x-1'
+                    ? 'text-gray-300 hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:text-white'
+                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-green-50 hover:text-green-700'
                 }`}
             >
-              <div className="flex items-center space-x-3">
+              <div className={`flex items-center ${sidebarOpen ? 'space-x-3' : 'justify-center w-full'}`}>
                 {(currentPage === item.id || (item.subItems && item.subItems.some(sub => sub.id === currentPage))) && (
                   <div className="absolute left-0 top-0 h-full w-1 bg-white/30 rounded-r-full"></div>
                 )}
-                <item.icon className={`w-5 h-5 transition-all duration-300 ${currentPage === item.id || (item.subItems && item.subItems.some(sub => sub.id === currentPage))
+                <item.icon className={`w-5 h-5 transition-all duration-300 flex-shrink-0 ${currentPage === item.id || (item.subItems && item.subItems.some(sub => sub.id === currentPage))
                     ? 'scale-110 drop-shadow-lg'
                     : 'group-hover:scale-110'
                   }`} />
-                {sidebarOpen && <span className="font-semibold">{item.label}</span>}
+                {sidebarOpen && <span className="font-semibold whitespace-nowrap">{item.label}</span>}
               </div>
 
               {sidebarOpen && item.subItems && item.subItems.length > 0 && (

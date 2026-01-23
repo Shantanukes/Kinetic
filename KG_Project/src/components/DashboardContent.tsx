@@ -11,7 +11,8 @@ import {
     Plus,
     Activity,
     Cloud,
-    Battery
+    Battery,
+    TreeDeciduous
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import kineticScooter from '../assets/image-1768823038663.png';
@@ -217,8 +218,8 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                     <MapIcon size={24} />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 font-medium">Distance Travelled</p>
-                                    <p className="text-2xl font-bold">{environmentalData.totalKm.toLocaleString()}<span className="text-sm font-normal text-gray-400 ml-1">m</span></p>
+                                    <p className="text-xs text-gray-500 font-medium">Total Distance </p>
+                                    <p className="text-2xl font-bold">{environmentalData.totalKm.toLocaleString()}<span className="text-sm font-normal text-gray-400 ml-1">km</span></p>
                                 </div>
                             </div>
                         </div>
@@ -246,15 +247,15 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                                 : 'bg-white shadow-lg border border-gray-100'
                             } flex flex-col justify-center relative overflow-hidden group hover:scale-[1.01] transition-all`}>
                             <div className="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                <Clock size={64} />
+                                <TreeDeciduous size={64} />
                             </div>
                             <div className="flex items-center space-x-3 relative z-10">
-                                <div className="p-3 bg-blue-500/10 text-blue-500 rounded-xl">
-                                    <Clock size={24} />
+                                <div className="p-3 bg-green-500/10 text-green-500 rounded-xl">
+                                    <TreeDeciduous size={24} />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 font-medium">Avg Trip Time</p>
-                                    <p className="text-2xl font-bold">50<span className="text-sm font-normal text-gray-400 ml-1">min</span></p>
+                                    <p className="text-xs text-gray-500 font-medium">Trees Equivalent</p>
+                                    <p className="text-2xl font-bold">{Math.round(environmentalData.co2Saved / 10)}<span className="text-sm font-normal text-gray-400 ml-1">trees</span></p>
                                 </div>
                             </div>
                         </div>
