@@ -1,6 +1,6 @@
 // Type Definitions for Connected Auto Dashboard
 
-export type UserRole = 'SUPER_ADMIN' | 'OEM' | 'RND' | 'DEALER' | 'SERVICE' | 'FLEET' | 'USER';
+export type UserRole = 'SUPER_ADMIN' | 'OEM' | 'RND' | 'DEALER' | 'SERVICE' | 'FLEET' | 'SALES' | 'FLEET_DRIVER' | 'USER';
 
 export interface LoginForm {
   username: string;

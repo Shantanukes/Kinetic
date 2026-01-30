@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  Building2, 
-  Users, 
-  CreditCard, 
-  Key, 
-  Plus, 
+import {
+  Building2,
+  Users,
+  CreditCard,
+  Key,
+  Plus,
   MoreVertical,
   Download,
   CheckCircle,
@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   Globe
 } from 'lucide-react';
+import TeamMembers from './TeamMembers';
 
 interface EnterpriseSettingsProps {
   darkMode: boolean;
@@ -19,7 +20,7 @@ interface EnterpriseSettingsProps {
 
 const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => {
   const [activeTab, setActiveTab] = useState('organization');
-  
+
   // Mock Organization Data
   const [orgDetails, setOrgDetails] = useState({
     name: 'Kinetic Green Energy & Power Solutions Ltd.',
@@ -29,14 +30,6 @@ const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => 
     contactEmail: 'admin@kineticgreen.com',
     contactPhone: '+91 20 6614 2049'
   });
-
-  // Mock Team Data
-  const [teamMembers] = useState([
-    { id: 1, name: 'Admin User', email: 'admin@kinetic.com', role: 'Super Admin', status: 'Active', lastLogin: 'Just now' },
-    { id: 2, name: 'Rajesh Sharma', email: 'rajesh.s@kinetic.com', role: 'Fleet Manager', status: 'Active', lastLogin: '2 hours ago' },
-    { id: 3, name: 'Priya Verma', email: 'priya.v@kinetic.com', role: 'Operations Lead', status: 'Active', lastLogin: '5 hours ago' },
-    { id: 4, name: 'Amit Kumar', email: 'amit.k@kinetic.com', role: 'Viewer', status: 'Inactive', lastLogin: '3 days ago' },
-  ]);
 
   // Mock Billing Data
   const invoices = [
@@ -56,30 +49,30 @@ const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => 
                 Save Changes
               </button>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Company Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={orgDetails.name}
-                  onChange={(e) => setOrgDetails({...orgDetails, name: e.target.value})}
+                  onChange={(e) => setOrgDetails({ ...orgDetails, name: e.target.value })}
                   className={`w-full p-2.5 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'}`}
                 />
               </div>
               <div className="space-y-2">
                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Business Domain</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={orgDetails.domain}
-                  onChange={(e) => setOrgDetails({...orgDetails, domain: e.target.value})}
+                  onChange={(e) => setOrgDetails({ ...orgDetails, domain: e.target.value })}
                   className={`w-full p-2.5 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'}`}
                 />
               </div>
               <div className="space-y-2">
                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Tax ID (GSTIN)</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={orgDetails.taxId}
                   readOnly
                   className={`w-full p-2.5 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600 text-gray-400' : 'bg-gray-50 border-gray-300 text-gray-500'}`}
@@ -87,9 +80,9 @@ const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => 
               </div>
               <div className="space-y-2">
                 <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Primary Address</label>
-                <textarea 
+                <textarea
                   value={orgDetails.address}
-                  onChange={(e) => setOrgDetails({...orgDetails, address: e.target.value})}
+                  onChange={(e) => setOrgDetails({ ...orgDetails, address: e.target.value })}
                   className={`w-full p-2.5 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'}`}
                   rows={2}
                 />
@@ -99,56 +92,7 @@ const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => 
         );
 
       case 'team':
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-700">
-              <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Team Management</h3>
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                <Plus size={18} /> Add Member
-              </button>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className={`text-left border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-                    <th className={`p-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Name</th>
-                    <th className={`p-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Role</th>
-                    <th className={`p-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Status</th>
-                    <th className={`p-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Last Login</th>
-                    <th className={`p-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {teamMembers.map((member) => (
-                    <tr key={member.id} className={`border-b last:border-0 ${darkMode ? 'border-gray-700' : 'border-gray-100'}`}>
-                      <td className="p-4">
-                        <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>{member.name}</div>
-                        <div className="text-sm text-gray-500">{member.email}</div>
-                      </td>
-                      <td className={`p-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{member.role}</td>
-                      <td className="p-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          member.status === 'Active' 
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' 
-                            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                        }`}>
-                          {member.status}
-                        </span>
-                      </td>
-                      <td className={`p-4 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{member.lastLogin}</td>
-                      <td className="p-4 text-right">
-                        <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-500">
-                          <MoreVertical size={18} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
+        return <TeamMembers darkMode={darkMode} />;
 
       case 'billing':
         return (
@@ -156,7 +100,7 @@ const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => 
             <h3 className={`text-lg font-semibold border-b pb-2 ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'}`}>
               Subscription & Billing
             </h3>
-            
+
             <div className={`p-6 rounded-xl border-l-4 border-blue-600 ${darkMode ? 'bg-gray-700/30' : 'bg-blue-50'}`}>
               <div className="flex justify-between items-start">
                 <div>
@@ -198,9 +142,9 @@ const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => 
                       <td className={`py-3 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{invoice.date}</td>
                       <td className={`py-3 text-sm font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>{invoice.amount}</td>
                       <td className="py-3">
-                         <span className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400 font-medium">
-                           <CheckCircle size={12} /> {invoice.status}
-                         </span>
+                        <span className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400 font-medium">
+                          <CheckCircle size={12} /> {invoice.status}
+                        </span>
                       </td>
                       <td className="py-3 text-right pr-2">
                         <button className="p-1 hover:text-blue-600 transition text-gray-400">
@@ -223,7 +167,7 @@ const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => 
   return (
     <main className="p-6 space-y-6 animate-fade-in">
       <div className={`rounded-xl shadow-lg flex flex-col md:flex-row min-h-[600px] overflow-hidden ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
-        
+
         {/* Sidebar */}
         <div className={`w-full md:w-64 flex-shrink-0 border-r ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'}`}>
           <div className="p-6">
@@ -231,33 +175,30 @@ const EnterpriseSettings: React.FC<EnterpriseSettingsProps> = ({ darkMode }) => 
             <nav className="space-y-1">
               <button
                 onClick={() => setActiveTab('organization')}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === 'organization'
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : `${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-200'}`
-                }`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${activeTab === 'organization'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : `${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-200'}`
+                  }`}
               >
                 <Building2 size={18} />
                 Organization
               </button>
               <button
                 onClick={() => setActiveTab('team')}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === 'team'
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : `${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-200'}`
-                }`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${activeTab === 'team'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : `${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-200'}`
+                  }`}
               >
                 <Users size={18} />
                 Team Members
               </button>
               <button
                 onClick={() => setActiveTab('billing')}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === 'billing'
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : `${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-200'}`
-                }`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${activeTab === 'billing'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : `${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-200'}`
+                  }`}
               >
                 <CreditCard size={18} />
                 Billing & Plan

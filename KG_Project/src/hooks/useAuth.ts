@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { LoginForm, SignupForm, UserRole } from '../types';
 
 // Demo/local credential store for role-based access
-const USER_CREDENTIALS: Record<string, { password: string; role: UserRole; dealerId?: string; name: string }> = {
+const USER_CREDENTIALS: Record<string, { password: string; role: UserRole; dealerId?: string; name: string; assignedVehicle?: string }> = {
   admin: { password: 'admin123', role: 'SUPER_ADMIN', name: 'Super Admin' },
   superadmin: { password: 'super123', role: 'SUPER_ADMIN', name: 'Vikram Shroff' },
   oem_user: { password: 'oem123', role: 'OEM', name: 'OEM Executive' },
@@ -19,6 +19,14 @@ const USER_CREDENTIALS: Record<string, { password: string; role: UserRole; deale
   service_eng: { password: 'service123', role: 'SERVICE', name: 'Service Engineer' },
   fleet: { password: 'fleet123', role: 'FLEET', name: 'Fleet Controller' },
   fleet_manager: { password: 'fleet123', role: 'FLEET', name: 'Fleet Manager' },
+  // SALES ROLE - Sales Team Members
+  sales: { password: 'sales123', role: 'SALES', name: 'Rajesh Kumar (Sales)' },
+  sales_user: { password: 'sales123', role: 'SALES', name: 'Priya Sharma (Sales)' },
+  sales_exec: { password: 'sales123', role: 'SALES', name: 'Amit Patel (Sales Executive)' },
+  // FLEET_DRIVER ROLE - Fleet Vehicle Drivers
+  driver: { password: 'driver123', role: 'FLEET_DRIVER', name: 'Suresh Kumar (Driver)', assignedVehicle: 'V000001' },
+  driver_user: { password: 'driver123', role: 'FLEET_DRIVER', name: 'Karthik Reddy (Driver)', assignedVehicle: 'V000002' },
+  fleet_driver: { password: 'driver123', role: 'FLEET_DRIVER', name: 'Arjun Singh (Fleet Driver)', assignedVehicle: 'V000003' },
   user: { password: 'user123', role: 'USER', name: 'Aditya Birla' },
   enduser: { password: 'user123', role: 'USER', name: 'Kunal Kapoor' }
 };

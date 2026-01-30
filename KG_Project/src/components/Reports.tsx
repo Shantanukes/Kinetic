@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
-import { 
-  FileText, 
-  Download, 
-  Calendar, 
+import {
+  FileText,
+  Download,
+  Calendar,
   ChevronDown,
   User,
   Truck,
   AlertTriangle,
   IndianRupee,
 } from 'lucide-react';
-import { 
-  DRIVER_PERFORMANCE 
+import {
+  DRIVER_PERFORMANCE
 } from '../constants';
+
+import { UserRole } from '../types';
 
 interface ReportsProps {
   darkMode: boolean;
   vehicleInsights: any[];
   faultCodes: any[];
+  userRole: UserRole;
 }
 
-const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes }) => {
+const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes, userRole }) => {
   const [activeTab, setActiveTab] = useState('vehicles');
 
   const tabs = [
     { id: 'vehicles', label: 'Vehicle Performance', icon: Truck },
-    { id: 'drivers', label: 'Driver Efficiency', icon: User },
-    { id: 'financial', label: 'Financial Summary', icon: IndianRupee },
+    { id: 'drivers', label: 'Driver Efficiency', icon: User, roles: ['SUPER_ADMIN', 'OEM', 'RND', 'FLEET', 'SERVICE', 'USER'] },
+    { id: 'financial', label: 'Financial Summary', icon: IndianRupee, roles: ['SUPER_ADMIN', 'OEM', 'RND', 'FLEET', 'USER'] },
     { id: 'faults', label: 'Fault Incidents', icon: AlertTriangle },
-  ];
+  ].filter(tab => !tab.roles || tab.roles.includes(userRole));
 
   const renderContent = () => {
     switch (activeTab) {
@@ -47,14 +50,13 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
               </thead>
               <tbody>
                 {vehicleInsights.map((vehicle) => (
-                  <tr 
+                  <tr
                     key={vehicle.id}
-                    className={`border-b last:border-0 ${
-                      darkMode ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
-                    }`}
+                    className={`border-b last:border-0 ${darkMode ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
+                      }`}
                   >
                     <td className="p-4">
-                      <div className="font-semibold">{vehicle.vehicle}</div>
+                      <div className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{vehicle.vehicle}</div>
                       <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                         {vehicle.licensePlate}
                       </div>
@@ -71,11 +73,10 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
                     <td className="p-4">
                       <div className="flex items-center gap-2">
                         <div className="w-16 bg-gray-200 rounded-full h-2 dark:bg-gray-600">
-                          <div 
-                            className={`h-2 rounded-full ${
-                              vehicle.healthScore > 90 ? 'bg-green-500' : 
+                          <div
+                            className={`h-2 rounded-full ${vehicle.healthScore > 90 ? 'bg-green-500' :
                               vehicle.healthScore > 75 ? 'bg-yellow-500' : 'bg-red-500'
-                            }`} 
+                              }`}
                             style={{ width: `${vehicle.healthScore}%` }}
                           ></div>
                         </div>
@@ -85,11 +86,10 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
                       </div>
                     </td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        vehicle.uptime > 95 
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-                          : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'
-                      }`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${vehicle.uptime > 95
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'
+                        }`}>
                         {vehicle.uptime > 95 ? 'Optimal' : 'Attention'}
                       </span>
                     </td>
@@ -116,11 +116,10 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
               </thead>
               <tbody>
                 {DRIVER_PERFORMANCE.map((driver) => (
-                  <tr 
+                  <tr
                     key={driver.id}
-                    className={`border-b last:border-0 ${
-                      darkMode ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
-                    }`}
+                    className={`border-b last:border-0 ${darkMode ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
+                      }`}
                   >
                     <td className={`p-4 font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {driver.name}
@@ -140,13 +139,12 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
                       {driver.incidents}
                     </td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        driver.status === 'excellent' 
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-                          : driver.status === 'good'
+                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${driver.status === 'excellent'
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+                        : driver.status === 'good'
                           ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
                           : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'
-                      }`}>
+                        }`}>
                         {driver.status.charAt(0).toUpperCase() + driver.status.slice(1)}
                       </span>
                     </td>
@@ -172,14 +170,13 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
               </thead>
               <tbody>
                 {vehicleInsights.map((vehicle) => (
-                  <tr 
+                  <tr
                     key={vehicle.id}
-                    className={`border-b last:border-0 ${
-                      darkMode ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
-                    }`}
+                    className={`border-b last:border-0 ${darkMode ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
+                      }`}
                   >
                     <td className="p-4">
-                      <div className="font-semibold">{vehicle.vehicle}</div>
+                      <div className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{vehicle.vehicle}</div>
                       <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                         {vehicle.licensePlate}
                       </div>
@@ -221,11 +218,10 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
               </thead>
               <tbody>
                 {faultCodes.map((fault) => (
-                  <tr 
+                  <tr
                     key={fault.id}
-                    className={`border-b last:border-0 ${
-                      darkMode ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
-                    }`}
+                    className={`border-b last:border-0 ${darkMode ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
+                      }`}
                   >
                     <td className="p-4 font-mono text-blue-600 font-semibold">{fault.code}</td>
                     <td className={`p-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -235,19 +231,17 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
                       {fault.vehicle}
                     </td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        fault.severity === 'high' ? 'bg-red-100 text-red-800' :
+                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${fault.severity === 'high' ? 'bg-red-100 text-red-800' :
                         fault.severity === 'medium' ? 'bg-orange-100 text-orange-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
                         {fault.severity.toUpperCase()}
                       </span>
                     </td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        fault.status === 'active' ? 'bg-red-100 text-red-800' :
+                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${fault.status === 'active' ? 'bg-red-100 text-red-800' :
                         'bg-green-100 text-green-800'
-                      }`}>
+                        }`}>
                         {fault.status.toUpperCase()}
                       </span>
                     </td>
@@ -273,11 +267,10 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
           <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             System Reports
           </h2>
-          
+
           <div className="flex gap-4">
-            <button className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
-              darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-700'
-            }`}>
+            <button className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-700'
+              }`}>
               <Calendar size={18} />
               Last 30 Days
               <ChevronDown size={16} />
@@ -297,14 +290,13 @@ const Reports: React.FC<ReportsProps> = ({ darkMode, vehicleInsights, faultCodes
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-col items-center justify-center p-4 rounded-xl transition border-2 ${
-                  activeTab === tab.id
-                    ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-600'
-                    : `border-transparent ${darkMode ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`
-                }`}
+                className={`flex flex-col items-center justify-center p-4 rounded-xl transition border-2 ${activeTab === tab.id
+                  ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-600'
+                  : `border-transparent ${darkMode ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`
+                  }`}
               >
                 <Icon size={24} className="mb-2" />
-                <span className="font-medium">{tab.label}</span>
+                <span className={`font-medium text-sm ${activeTab === tab.id ? '' : darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{tab.label}</span>
               </button>
             );
           })}

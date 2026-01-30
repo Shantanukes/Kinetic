@@ -18,19 +18,22 @@ import {
   CircleDot,
   Square,
   Battery,
-  Thermometer
+  Thermometer,
+  Headphones,
+  UserPlus
 } from 'lucide-react';
 
 import { UserRole } from './types';
 
 export const MENU_ITEMS: { icon: any; label: string; id: string; roles: UserRole[]; subItems?: any[] }[] = [
-  { icon: LayoutDashboard, label: 'Dashboard', id: 'dashboard', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'USER'] },
+  { icon: LayoutDashboard, label: 'Dashboard', id: 'dashboard', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'SALES', 'FLEET_DRIVER', 'USER'] },
   { icon: Truck, label: 'Add Vehicle', id: 'add-vehicle', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER'] },
-  { icon: Users, label: 'Dealer Management', id: 'dealer-management', roles: ['SUPER_ADMIN', 'OEM', 'RND'] },
-  { icon: Map, label: 'Live Tracking', id: 'tracking', roles: ['SUPER_ADMIN', 'RND', 'FLEET', 'USER'] },
-  { icon: TrendingUp, label: 'Vehicle Insights', id: 'insights', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'USER'] },
-  { icon: AlertTriangle, label: 'Fault Analysis', id: 'faults', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'USER'] },
-  { icon: FileText, label: 'Reports', id: 'reports', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'USER'] },
+  { icon: Users, label: 'Dealer Management', id: 'dealer-management', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'SALES'] },
+  { icon: UserPlus, label: 'Assign Vehicle', id: 'assign-vehicle', roles: ['FLEET'] },
+  { icon: Map, label: 'Live Tracking', id: 'tracking', roles: ['SUPER_ADMIN', 'RND', 'FLEET', 'FLEET_DRIVER', 'USER'] },
+  { icon: TrendingUp, label: 'Vehicle Insights', id: 'insights', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'SALES', 'FLEET_DRIVER', 'USER'] },
+  { icon: AlertTriangle, label: 'Fault Analysis', id: 'faults', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'SALES', 'FLEET_DRIVER', 'USER'] },
+  { icon: FileText, label: 'Reports', id: 'reports', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'SALES', 'USER'] },
   { icon: Cpu, label: 'Device Management', id: 'devices', roles: ['SUPER_ADMIN', 'RND', 'USER'] },
   {
     icon: Settings,
@@ -45,6 +48,7 @@ export const MENU_ITEMS: { icon: any; label: string; id: string; roles: UserRole
     ]
   },
   { icon: Wifi, label: 'FOTA Updates', id: 'fota', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'SERVICE', 'DEALER', 'USER'] },
+  { icon: Headphones, label: 'Support & Connect', id: 'support-connect', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'DEALER', 'SERVICE', 'FLEET', 'SALES', 'FLEET_DRIVER', 'USER'] },
   { icon: Settings, label: 'Configure', id: 'configure', roles: ['SUPER_ADMIN', 'OEM', 'RND', 'USER'] },
   { icon: Building2, label: 'Enterprise Settings', id: 'enterprise', roles: ['SUPER_ADMIN'] }
 ];

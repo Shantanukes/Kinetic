@@ -21,6 +21,8 @@ const VcuData = lazy(() => import('./components/VcuData'));
 const BrakeData = lazy(() => import('./components/BrakeData'));
 const BmsData = lazy(() => import('./components/BmsData'));
 const HeatMaps = lazy(() => import('./components/HeatMaps'));
+const SupportConnect = lazy(() => import('./components/SupportConnect'));
+const VehicleAssignment = lazy(() => import('./components/VehicleAssignment'));
 import { useAuth } from './hooks/useAuth';
 // import { useDeviceStats } from './hooks/useDeviceStats'; // Hook removed
 import { Alert, Vehicle } from './types';
@@ -139,14 +141,11 @@ const ConnectedAutoDashboard = () => {
     return (
       <LoginPage
         loginForm={loginForm}
-        signupForm={signupForm}
         showForgotPassword={showForgotPassword}
         darkMode={darkMode}
         setLoginForm={setLoginForm}
-        setSignupForm={setSignupForm}
         setShowForgotPassword={setShowForgotPassword}
         handleLogin={handleLogin}
-        handleSignup={handleSignup}
       />
     );
   }
@@ -166,7 +165,7 @@ const ConnectedAutoDashboard = () => {
 
   // Main Dashboard
   return (
-    <div className={`h-screen w-screen overflow-hidden ${darkMode ? 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-black' : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-gray-100'} transition-colors duration-300`}>
+    <div className={`h-screen w-screen overflow-hidden ${darkMode ? 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-black' : 'bg-white'} transition-colors duration-300`}>
       <Sidebar
         sidebarOpen={sidebarOpen}
         darkMode={darkMode}
@@ -214,77 +213,85 @@ const ConnectedAutoDashboard = () => {
               />
             )}
 
-          {currentPage === 'tracking' && (
-            <LiveTracking vehicles={displayVehicles} darkMode={darkMode} />
-          )}
+            {currentPage === 'tracking' && (
+              <LiveTracking vehicles={displayVehicles} darkMode={darkMode} />
+            )}
 
-          {currentPage === 'insights' && (
-            <VehicleInsights darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-          )}
+            {currentPage === 'insights' && (
+              <VehicleInsights darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+            )}
 
-          {currentPage === 'faults' && (
-            <FaultAnalysis darkMode={darkMode} faultCodes={filteredFaultCodes} faultCodeAnalysis={filteredFaultAnalysis} />
-          )}
+            {currentPage === 'faults' && (
+              <FaultAnalysis darkMode={darkMode} faultCodes={filteredFaultCodes} faultCodeAnalysis={filteredFaultAnalysis} />
+            )}
 
-          {currentPage === 'reports' && (
-            <Reports darkMode={darkMode} vehicleInsights={filteredVehicleInsights} faultCodes={filteredFaultCodes} />
-          )}
+            {currentPage === 'reports' && (
+              <Reports darkMode={darkMode} vehicleInsights={filteredVehicleInsights} faultCodes={filteredFaultCodes} userRole={userRole} />
+            )}
 
-          {currentPage === 'devices' && (
-            <DeviceManagement darkMode={darkMode} vehicles={displayVehicles} />
-          )}
+            {currentPage === 'devices' && (
+              <DeviceManagement darkMode={darkMode} vehicles={displayVehicles} />
+            )}
 
-          {currentPage === 'fota' && (
-            <FotaUpdates darkMode={darkMode} vehicles={filteredVehicles} />
-          )}
+            {currentPage === 'fota' && (
+              <FotaUpdates darkMode={darkMode} vehicles={filteredVehicles} />
+            )}
 
-          {currentPage === 'configure' && (
-            <Configure darkMode={darkMode} />
-          )}
+            {currentPage === 'configure' && (
+              <Configure darkMode={darkMode} />
+            )}
 
-          {currentPage === 'enterprise' && (
-            <EnterpriseSettings darkMode={darkMode} />
-          )}
+            {currentPage === 'enterprise' && (
+              <EnterpriseSettings darkMode={darkMode} />
+            )}
 
-          {currentPage === 'mcu-data' && (
-            <McuData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-          )}
+            {currentPage === 'mcu-data' && (
+              <McuData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+            )}
 
-          {currentPage === 'vcu-data' && (
-            <VcuData
-              darkMode={darkMode}
-              vehicleInsights={filteredVehicleInsights}
-              vehicles={filteredVehicles}
-            />
-          )}
+            {currentPage === 'vcu-data' && (
+              <VcuData
+                darkMode={darkMode}
+                vehicleInsights={filteredVehicleInsights}
+                vehicles={filteredVehicles}
+              />
+            )}
 
-          {currentPage === 'ipc-data' && (
-            <BrakeData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-          )}
+            {currentPage === 'ipc-data' && (
+              <BrakeData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+            )}
 
-          {currentPage === 'bms-data' && (
-            <BmsData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-          )}
+            {currentPage === 'bms-data' && (
+              <BmsData darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+            )}
 
-          {currentPage === 'heat-maps' && (
-            <HeatMaps darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
-          )}
+            {currentPage === 'heat-maps' && (
+              <HeatMaps darkMode={darkMode} vehicleInsights={filteredVehicleInsights} />
+            )}
 
-          {currentPage === 'add-vehicle' && (
-            <AddVehicle
-              darkMode={darkMode}
-              userRole={userRole}
-              onAdd={(vehicleData) => {
-                console.log('Vehicle Added', vehicleData);
-                setCurrentPage('dashboard');
-              }}
-            />
-          )}
+            {currentPage === 'add-vehicle' && (
+              <AddVehicle
+                darkMode={darkMode}
+                userRole={userRole}
+                onAdd={(vehicleData) => {
+                  console.log('Vehicle Added', vehicleData);
+                  setCurrentPage('dashboard');
+                }}
+              />
+            )}
 
-          {currentPage === 'dealer-management' && (
-            <DealerManagement darkMode={darkMode} />
-          )}
-        </main>
+            {currentPage === 'dealer-management' && (
+              <DealerManagement darkMode={darkMode} userRole={userRole} />
+            )}
+
+            {currentPage === 'support-connect' && (
+              <SupportConnect darkMode={darkMode} userRole={userRole} username={headerUsername} />
+            )}
+
+            {currentPage === 'assign-vehicle' && (
+              <VehicleAssignment darkMode={darkMode} vehicles={filteredVehicles} />
+            )}
+          </main>
         </Suspense>
       </div>
     </div>
